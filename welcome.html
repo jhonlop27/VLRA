@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntitas</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a; /* Negro */
+            color: #fff; /* Blanco */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Alinear elementos desde arriba */
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #3b0d11, #1a1a1a); /* Fondo degradado */
+        }
+
+        h1 {
+margin-top: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 50px; /* Espacio entre los corazones y el recuadro */
+        }
+
+        .heart-button {
+    position: relative;
+    width: 150px;
+    height: 130px;
+    background: #ff1a4b; /* Rojo neón */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    clip-path: path('M75 130 L15 70 A30 30 0 1 1 75 40 A30 30 0 1 1 135 70 Z'); /* SVG path con mejor forma */
+    box-shadow:
+        0 0 10px #ff1a4b,
+        0 0 20px #ff1a4b,
+        0 0 40px #ff1a4b,
+        0 0 80px #ff1a4b;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.heart-button:hover {
+    transform: scale(1.1);
+    box-shadow:
+        0 0 20px #ff1a4b,
+        0 0 40px #ff1a4b,
+        0 0 80px #ff1a4b,
+        0 0 120px #ff1a4b;
+}
+
+.heart-button:active {
+    transform: scale(0.95);
+    box-shadow:
+        0 0 5px #ff1a4b,
+        0 0 10px #ff1a4b,
+        0 0 20px #ff1a4b;
+}
+
+
+        .modal {
+            position: relative;
+            margin-top: 50px; /* Espacio entre los corazones y el cuadro */
+                        background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 300px;
+        }
+
+        .modal h2 {
+            margin-bottom: 10px;
+            color: #3b0d11;
+        }
+
+        .modal p {
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .close-button,
+        .next-button {
+            display: none; /* Ocultar botones por defecto */
+        }
+
+        .code-input-container {
+            position: absolute;
+            bottom: 20px; /* Ubicado en la parte inferior */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-input-container input {
+            padding: 10px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background: transparent;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .code-input-container button {
+            padding: 10px 15px;
+            background-color: #ff4d4d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .code-input-container button:hover {
+            background-color: #b30000;
+        }
+
+        .next-button,
+        .close-button {
+            padding: 8px 12px; /* Botones más pequeños */
+            background-color: #ff4d4d; /* Rojo */
+            color: #fff;
+            border: none;
+            border-radius: 5px; /* Bordes redondeados */
+            cursor: pointer;
+            font-size: 14px; /* Texto más pequeño */
+            margin: 5px; /* Espaciado entre botones */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .next-button:hover,
+        .close-button:hover {
+            background-color: #b30000; /* Rojo más oscuro al pasar el mouse */
+            transform: scale(1.05); /* Efecto de agrandamiento */
+        }
+
+        .next-button:active,
+        .close-button:active {
+            transform: scale(0.95); /* Efecto de clic */
+        }
+    </style>
+</head>
+<body>
+    <h1>Juguemos</h1>
+    <div class="buttons">
+        <div class="heart-button" id="tranquiButton">Tranqui</div>
+        <div class="heart-button" id="hotButton">Hot</div>
+    </div>
+
+    <div class="modal" id="questionModal">
+        <h2 id="questionType">Pregunta</h2>
+        <p id="questionText"></p>
+        <button class="next-button" id="nextQuestionButton">Siguiente</button>
+        <button class="close-button" id="closeModalButton">Cerrar</button>
+    </div>
+
+    <div class="code-input-container">
+        <input type="text" id="codeInput" placeholder="Ingresa el código">
+        <button id="codeSubmitButton">Ok</button>
+    </div>
+
+    <script>
+        const hotQuestions = [
+            "¿Qué es lo que más te enciende de alguien?",
+            "¿Prefieres que te dominen o tomar el control?",
+            "¿Cuál ha sido tu fantasía más loca (¿la has cumplido)?",
+            "¿Qué parte de tu cuerpo te gusta más que te besen?",
+            "¿Qué prenda te hace sentir más sexy?",
+            "¿Eres de los que prefieren lo lento o lo intenso?",
+            "¿Alguna vez te han atrapado en algo “prohibido”?",
+            "¿Te gusta más provocar o que te provoquen?",
+            "¿Qué es lo más atrevido que has dicho en un mensaje?",
+            "¿Tienes alguna zona sensible que poca gente conoce?",
+            "¿Te atrae más la mente o el cuerpo?",
+            "¿Cuál ha sido tu mejor experiencia bajo las sábanas?",
+            "¿Te gusta hablar sucio o te da risa?",
+            "¿Cuál es tu debilidad cuando alguien te gusta mucho?",
+            "¿Qué fantasía aún no te animas a cumplir?",
+            "¿Tienes una playlist para esos momentos… intensos?",
+            "¿Prefieres lugares privados o públicos (con riesgo)?",
+            "¿Eres más de maratón o de intensidad corta pero explosiva?",
+            "¿Qué piensas justo antes de un primer beso?",
+            "¿Qué te gustaría que hicieran contigo que aún nadie ha hecho?"
+        ];
+
+        const tranquiQuestions = [
+            "¿Cuál es tu mayor sueño en la vida?",
+            "¿Qué es lo que más valoras en una amistad?",
+            "¿Qué es lo que más te hace feliz?",
+            "¿Qué es lo que más te molesta?",
+            "¿Qué es lo que más te gusta de ti mismo?",
+            "¿Qué es lo que más te atrae de alguien?",
+            "¿Qué es lo que más te inspira?",
+            "¿Qué es lo que más te motiva?",
+            "¿Qué es lo que más te hace reír?",
+            "¿Qué es lo que más te hace llorar?",
+            "¿Qué es lo que más te hace sentir vivo?",
+            "¿Qué es lo que más te hace sentir amado?",
+            "¿Qué es lo que más te hace sentir seguro?",
+            "¿Qué es lo que más te hace sentir especial?",
+            "¿Qué es lo que más te hace sentir único?",
+            "¿Qué es lo que más te hace sentir importante?",
+            "¿Qué es lo que más te hace sentir feliz?",
+            "¿Qué es lo que más te hace sentir triste?",
+            "¿Qué es lo que más te hace sentir en paz?",
+            "¿Qué es lo que más te hace sentir en armonía?"
+        ];
+
+        let currentQuestionIndex = 0;
+
+        const questionModal = document.getElementById('questionModal');
+        const questionText = document.getElementById('questionText');
+        const questionType = document.getElementById('questionType');
+const codeInput = document.getElementById('codeInput');
+        const codeSubmitButton = document.getElementById('codeSubmitButton');
+
+        document.getElementById('hotButton').addEventListener('click', () => {
+            showQuestion(hotQuestions, "Hot", "hot");
+        });
+
+        document.getElementById('tranquiButton').addEventListener('click', () => {
+            showQuestion(tranquiQuestions, "Tranqui", "tranqui");
+        });
+
+        document.getElementById('nextQuestionButton').addEventListener('click', () => {
+            const questions = questionType.textContent === "Hot" ? hotQuestions : tranquiQuestions;
+            currentQuestionIndex = Math.floor(Math.random() * questions.length);
+            questionText.textContent = questions[currentQuestionIndex];
+        });
+
+        document.getElementById('closeModalButton').addEventListener('click', () => {
+            questionModal.style.display = 'none';
+        });
+
+        codeSubmitButton.addEventListener('click', () => {
+            const code = codeInput.value.trim();
+            if (code === "270104") {
+                questionType.textContent = "Para ti linda";
+    questionText.textContent = "Hoy la pase muy bien contigo, espero que tú también lo hayas pasado bien. Me gusta demasiado hablar contigo y me siento muy bien. Espero poder vernos en algún momento y poder decirte que eres una niña muy linda y darte unos cuantos besitos.";
+                questionModal.style.display = 'flex';
+
+                // Mostrar botón de cerrar
+                const closeButton = document.getElementById('closeModalButton');
+                closeButton.style.display = 'block';
+                closeButton.addEventListener('click', () => {
+                    questionModal.style.display = 'none';
+                });
+
+document.getElementById('nextQuestionButton').style.display = 'none';
+                            } else {
+                alert("Código incorrecto. Intenta nuevamente.");
+            }
+        });
+
+        function showQuestion(questions, type, className) {
+            currentQuestionIndex = Math.floor(Math.random() * questions.length);
+            questionText.textContent = questions[currentQuestionIndex];
+            questionType.textContent = type;
+            questionModal.className = `modal ${className}`;
+            questionModal.style.display = 'flex';
+document.getElementById('nextQuestionButton').style.display = 'block';
+            document.getElementById('closeModalButton').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

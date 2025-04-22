@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Panel</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a; /* Negro */
+            color: #fff; /* Blanco */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #3b0d11, #1a1a1a); /* Fondo degradado */
+        }
+
+        .login-panel {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 90%; /* Ajustar el ancho para móviles */
+            max-width: 400px; /* Limitar el ancho máximo */
+            text-align: center;
+        }
+
+        .login-panel h2 {
+            margin-bottom: 20px;
+            font-size: 24px; /* Tamaño ajustado */
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background: transparent;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 14px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus + label,
+        .form-group input:not(:placeholder-shown) + label {
+            top: -10px;
+            font-size: 12px;
+            color: #ff4d4d; /* Rojo */
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff4d4d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #b30000;
+        }
+
+        /* Media queries para dispositivos móviles */
+        @media (max-width: 768px) {
+            .login-panel {
+                padding: 15px;
+            }
+
+            .login-panel h2 {
+                font-size: 20px; /* Reducir tamaño del título */
+            }
+
+            .form-group input {
+                font-size: 14px; /* Reducir tamaño del texto */
+            }
+
+            .form-group label {
+                font-size: 12px; /* Reducir tamaño del label */
+            }
+
+            button {
+                font-size: 14px; /* Reducir tamaño del botón */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-panel">
+        <h2>Nicolsita</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <input type="text" id="username" name="username" placeholder=" " required>
+                <label for="username">Username</label>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" name="password" placeholder=" " required>
+                <label for="password">Password</label>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
