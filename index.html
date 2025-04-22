@@ -95,24 +95,57 @@
 
         /* Media queries para dispositivos móviles */
         @media (max-width: 768px) {
+            body {
+                padding: 20px; /* Añadí un padding para evitar que quede pegado a los bordes */
+            }
+
             .login-panel {
-                padding: 30px; /* Ajuste para dispositivos móviles */
+                padding: 20px; /* Reducí el padding para que no se vea tan grande */
+                max-width: 300px; /* Hice el recuadro más estrecho */
             }
 
             .login-panel h2 {
-                font-size: 22px;
+                font-size: 20px; /* Ajusté el tamaño del título */
+                margin-bottom: 20px; /* Reducí el margen inferior */
+            }
+
+            .form-group {
+                margin-bottom: 20px; /* Reducí el espacio entre los campos */
             }
 
             .form-group input {
-                font-size: 14px;
+                font-size: 14px; /* Ajusté el tamaño de la fuente */
+                padding: 10px; /* Reducí el padding */
             }
 
             .form-group label {
-                font-size: 12px;
+                font-size: 12px; /* Ajusté el tamaño de la etiqueta */
             }
 
             button {
-                font-size: 14px;
+                font-size: 14px; /* Ajusté el tamaño del botón */
+                padding: 10px; /* Reducí el padding */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-panel {
+                padding: 15px; /* Ajusté aún más el padding para pantallas muy pequeñas */
+                max-width: 280px; /* Hice el recuadro más compacto */
+            }
+
+            .login-panel h2 {
+                font-size: 18px; /* Reducí el tamaño del título */
+            }
+
+            .form-group input {
+                font-size: 13px; /* Ajusté el tamaño de la fuente */
+                padding: 8px; /* Reducí el padding */
+            }
+
+            button {
+                font-size: 13px; /* Ajusté el tamaño del botón */
+                padding: 8px; /* Reducí el padding */
             }
         }
     </style>
