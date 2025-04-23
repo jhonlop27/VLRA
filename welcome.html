@@ -162,9 +162,9 @@ margin-top: 20px;
 </head>
 <body>
     <h1>Juguemos</h1>
-    <div class="buttons">
+    <div class="buttons" id="heartButtons">
         <div class="heart-button" id="tranquiButton">Tranqui</div>
-        <div class="heart-button" id="hotButton">Hot</div>
+        <div class="heart-button" id="hotButton" style="display: none;">Hot</div>
     </div>
 
     <div class="modal" id="questionModal">
@@ -253,6 +253,9 @@ const codeInput = document.getElementById('codeInput');
             questionModal.style.display = 'none';
         });
 
+        // Ocultar solo el botón Hot al cargar
+        document.getElementById('hotButton').style.display = 'none';
+
         codeSubmitButton.addEventListener('click', () => {
             const code = codeInput.value.trim();
             if (code === "270104") {
@@ -268,7 +271,11 @@ const codeInput = document.getElementById('codeInput');
                 });
 
 document.getElementById('nextQuestionButton').style.display = 'none';
-                            } else {
+                            } else if (code === "696969") {
+                // Mostrar botón Hot
+                document.getElementById('hotButton').style.display = 'flex';
+                // Ya no ocultamos la barra de código
+            } else {
                 alert("Código incorrecto. Intenta nuevamente.");
             }
         });
